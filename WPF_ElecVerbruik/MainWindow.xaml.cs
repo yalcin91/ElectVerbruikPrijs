@@ -36,6 +36,7 @@ namespace WPF_ElecVerbruik
             LeverancierWPF = new LeverancierWPF();
             Leverancier = new ObservableCollection<Leverancier>(Context.LeverancierManager.GetAllLeveranciers());
             dgOrderSelection.ItemsSource = Leverancier;
+            cbLeverancier.ItemsSource = Leverancier;
             Leverancier.CollectionChanged += Leverancier_CollectionChanged;
             Closing += MainWindow_Closing;
             LeverancierWPF.Closing += LeverancierWPF_Closing;
@@ -89,22 +90,53 @@ namespace WPF_ElecVerbruik
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Refresh(sender, e);           
+        }
+        private void Refresh(object sender, EventArgs e)
+        {
+            if(cbLeverancier.SelectedItem != null)
+            {
+                var naam = cbLeverancier.Items;
+                long id = 0;
+                var leveranciers = Context.LeverancierManager.GetAllLeveranciers();
+                foreach(Leverancier a in naam)
+                {
+                    if (a.Naam != null)
+                    {
+                        if (a == cbLeverancier.SelectedItem)
+                        {
+                            foreach (Leverancier m in leveranciers)
+                            {
+                                if (a.Naam == m.Naam)
+                                {
+                                    id = a.Id;
+                                }
+                            }
+                        }
+                    }
+                }
+                var bestellings = Context.LeverancierManager.GetAllLeveranciers().Where(b => b.Id == id).ToList();
+                dgOrderSelection.ItemsSource = bestellings;
+            }
+            else
+            {
+                dgOrderSelection.ItemsSource = Leverancier = new ObservableCollection<Leverancier>(Context.LeverancierManager.GetAllLeveranciers());
+            }
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
-
-        }
-
-        private void Statusbar_Tonen(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
+            if (string.IsNullOrEmpty(txtbLeverancier.Text))
+            {
+                cbLeverancier.ItemsSource = null;
+                return;
+            }
+            var leveranciers = Context.LeverancierManager.GetAllLeveranciers().Where(k => k.Naam.ToUpperInvariant().Contains(txtbLeverancier.Text.ToUpperInvariant().Substring(0)));
+            cbLeverancier.ItemsSource = leveranciers;
+            if (leveranciers.Count() > 0)
+            {
+                cbLeverancier.SelectedIndex = 0;
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

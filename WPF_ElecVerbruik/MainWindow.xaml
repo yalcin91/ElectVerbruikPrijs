@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_ElecVerbruik"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1200">
+        Title="MainWindow" Height="450" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -62,39 +62,32 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="lblLeverancier" Grid.Row="0" Grid.Column="0" Margin="5" Content="Leverancier:" VerticalAlignment="Center" FontFamily="Segoe UI Black" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
             <TextBox x:Name="txtbLeverancier" Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="250" KeyUp="TextBox_KeyUp" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
-            <ComboBox x:Name="cbLeverancier" Grid.Row="0" Grid.Column="2" Margin="5" DisplayMemberPath="Naam" SelectedValuePath="Naam" 
-                      VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+            <ComboBox x:Name="cbLeverancier" Grid.Row="0" Grid.Column="2" Margin="5"  
+                      VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" FontSize="14">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                             <Run Text="{Binding Naam}" />
+                            <!-- <Run Text="{Binding PrijsKHW, StringFormat=C}" /> --> 
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <DataGrid x:Name="dgOrderSelection" Grid.Row="1" VerticalAlignment="Stretch" CanUserAddRows="False" CanUserDeleteRows="True" IsReadOnly="True"
-                   AutoGenerateColumns="False" AlternatingRowBackground="#FFB6B3AB" Grid.ColumnSpan="8" Margin="5">
+                   AutoGenerateColumns="False" AlternatingRowBackground="#FFB6B3AB" Grid.ColumnSpan="7" Margin="5">
                 <DataGrid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF68636F"/>
                         <GradientStop Color="#FFC3C3C3" Offset="1"/>
                     </LinearGradientBrush>
                 </DataGrid.Background>
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <EventSetter Event="MouseLeftButtonUp"  Handler="Statusbar_Tonen"/>
-                        <EventSetter Event="MouseDoubleClick"  Handler="DataGridCell_MouseDoubleClick"/>
-                    </Style>
-                </DataGrid.CellStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"  Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTextColumn Header="Naam" Binding="{Binding Naam}" MinWidth="100" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="10"/>
-                    <DataGridTextColumn Header="Prijs" Binding="{Binding PrijsKHW, StringFormat=C}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTextColumn Header="Maatschappelijke Zetel" Binding="{Binding MaatschappelijkeZetel}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTextColumn Header="Toekenning Leveringvergunning" Binding="{Binding ToekenningLeveringvergunning}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTextColumn Header="Publicatiebeslissing In BelGisch Staatsblad" Binding="{Binding PublicatiebeslissingInBelGischStaatsblad}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTextColumn Header="Tijdstip" Binding="{Binding AutoTimeCreation}" MinWidth="120"  FontWeight="Bold" FontStyle="Italic" FontSize="10" />
-                    <DataGridTemplateColumn Header="Delete" Width="auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Click="DeleteButton_Click" Width="50" Background="#FF9A9191">
-                                    <Image Source="/WPF;component/Images/close.png"/>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="12" />
+                    <DataGridTextColumn Header="Naam" Binding="{Binding Naam}" MinWidth="100" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="12"/>
+                    <DataGridTextColumn Header="Prijs" Binding="{Binding PrijsKHW, StringFormat=C}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="12" />
+                    <DataGridTextColumn Header="Maatschappelijke Zetel" Binding="{Binding MaatschappelijkeZetel}" Width="auto" MinWidth="230"  FontWeight="Bold" FontStyle="Italic" FontSize="12" />
+                    <DataGridTextColumn Header="Toekenning Leveringvergunning" Binding="{Binding ToekenningLeveringvergunning}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="12" />
+                    <DataGridTextColumn Header="Publicatiebeslissing In BelGisch Staatsblad" Binding="{Binding PublicatiebeslissingInBelGischStaatsblad}" Width="auto"  FontWeight="Bold" FontStyle="Italic" FontSize="12" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

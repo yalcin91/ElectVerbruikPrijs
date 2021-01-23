@@ -26,7 +26,6 @@ namespace WPF_ElecVerbruik.ModelWPF
     public partial class LeverancierWPF : Window, INotifyPropertyChanged
     {
         #region For WPF interface INotifyProperyChanged
-        // Deze code kan altijd in een class gecopieerd worden
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
         {

@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 using BusinessLayer.Model;
@@ -142,7 +132,8 @@ namespace WPF_ElecVerbruik
         {
             if (string.IsNullOrEmpty(txtbLeverancier.Text))
             {
-                cbLeverancier.ItemsSource = null;
+                Leverancier = new ObservableCollection<Leverancier>(Context.LeverancierManager.GetAllLeveranciers());
+                cbLeverancier.ItemsSource = Leverancier;
                 return;
             }
             var leveranciers = Context.LeverancierManager.GetAllLeveranciers().Where(k => k.Naam.ToUpperInvariant().Contains(txtbLeverancier.Text.ToUpperInvariant().Substring(0)));
@@ -151,11 +142,6 @@ namespace WPF_ElecVerbruik
             {
                 cbLeverancier.SelectedIndex = 0;
             }
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

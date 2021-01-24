@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -85,6 +86,12 @@ namespace WPF_ElecVerbruik.ModelWPF
 
         private void txtb_KeyUp(object sender, KeyEventArgs e)
         {
+            if (txtPrijsEuro.Text.ToCharArray(0, txtPrijsEuro.Text.Length).Contains('.'))
+            {
+                txtPrijsEuro.Text = txtPrijsEuro.Text.Remove(txtPrijsEuro.Text.Length - 1);
+                txtPrijsEuro.Text += ",";
+                txtPrijsEuro.SelectionStart = txtPrijsEuro.Text.Length;
+            }
             if (string.IsNullOrEmpty(txtNaam.Text) ||
                 string.IsNullOrEmpty(txtPrijsEuro.Text) ||
                 string.IsNullOrEmpty(txtMaatschappelijkeZetel.Text) ||
@@ -96,23 +103,13 @@ namespace WPF_ElecVerbruik.ModelWPF
             else
             {
                 btnVoegToe.IsEnabled = true;
-                if (txtPrijsEuro.Text.ToCharArray(0, txtPrijsEuro.Text.Length).Contains('.'))
-                {
-                    txtPrijsEuro.Text = txtPrijsEuro.Text.Remove(txtPrijsEuro.Text.Length - 1);
-                    txtPrijsEuro.Text += ",";
-                    txtPrijsEuro.SelectionStart = txtPrijsEuro.Text.Length;
-                }
             }
-        }
-
-        private void dgProduct_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            dgOrderSelection.IsReadOnly = false;
         }
 
         private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             btnUpdate.IsEnabled = true;
+            dgOrderSelection.IsReadOnly = false;
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -129,6 +126,39 @@ namespace WPF_ElecVerbruik.ModelWPF
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             LeveranciersOBS.Remove(dgOrderSelection.SelectedItem as Leverancier);            
-        }    
+        }
+
+        private void datepPublicatiebeslissing_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (txtPrijsEuro.Text.ToCharArray(0, txtPrijsEuro.Text.Length).Contains('.'))
+            {
+                txtPrijsEuro.Text = txtPrijsEuro.Text.Remove(txtPrijsEuro.Text.Length - 1);
+                txtPrijsEuro.Text += ",";
+                txtPrijsEuro.SelectionStart = txtPrijsEuro.Text.Length;
+            }
+            if (string.IsNullOrEmpty(txtNaam.Text) ||
+                string.IsNullOrEmpty(txtPrijsEuro.Text) ||
+                string.IsNullOrEmpty(txtMaatschappelijkeZetel.Text) ||
+                string.IsNullOrEmpty(datepToekenningLeveringvergunning.SelectedDate.ToString()) ||
+                string.IsNullOrEmpty(datepPublicatiebeslissing.SelectedDate.ToString()))
+            {
+                btnVoegToe.IsEnabled = false;
+            }
+            else
+            {
+                btnVoegToe.IsEnabled = true;
+            }
+        }
+
+        private void txtPrijs_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+[^.]+[^,]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9]+[^.]+[^,]").IsMatch(e.Text);
+        }
     }
 }

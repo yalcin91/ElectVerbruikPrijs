@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WPF_ElecVerbruik.Languages;
 using System.Windows;
+using System.Windows.Markup;
+using System.Threading;
+using System.Globalization;
 
 namespace WPF_ElecVerbruik
 {
@@ -17,8 +20,11 @@ namespace WPF_ElecVerbruik
         private App()
         {
             string nederlands = "nl-BE";
-            string engels = "en-US";
+            //string engels = "en-US";
             Translations.Culture = new System.Globalization.CultureInfo(nederlands); // en-US
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(nederlands);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

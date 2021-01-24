@@ -8,7 +8,10 @@
         Title="BerekeningWPF" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <SolidColorBrush Color="#FFC3C3C3"/>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF515151"/>
+                <GradientStop Color="#FFEDEDED" Offset="1"/>
+            </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -24,7 +27,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Aantal uren per dag in gebruik:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
-            <TextBox x:Name="txtAantalUren" Grid.Column="1" MinWidth="40"/>
+            <TextBox x:Name="txtAantalUren" Grid.Column="1" MinWidth="40" KeyUp="txt_KeyUp" KeyDown="txt_KeyDown" PreviewTextInput="txt_PreviewTextInput"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -32,7 +35,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Aantal Dagen:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
-            <TextBox x:Name="txtAantalDagen" Grid.Column="1" MinWidth="40"/>
+            <TextBox x:Name="txtAantalDagen" Grid.Column="1" MinWidth="40" KeyUp="txt_KeyUp" KeyDown="txt_KeyDown" PreviewTextInput="txt_PreviewTextInput"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -40,7 +43,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Aantal Vermogen in Watt:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
-            <TextBox x:Name="txtAantalWattage" Grid.Column="1" MinWidth="40"/>
+            <TextBox x:Name="txtAantalWattage" Grid.Column="1" MinWidth="40" KeyUp="txt_KeyUp" KeyDown="txt_KeyDown" PreviewTextInput="txt_PreviewTextInput"/>
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -49,8 +52,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Prijs per Kwh(+- 5 - 20 cent):" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
-            <TextBox x:Name="txtPrijsPerKwh" Grid.Column="1" MinWidth="40" KeyUp="txtPrijsPerKwh_KeyUp" KeyDown="txtPrijsPerKwh_KeyDown"/>
-            <ComboBox x:Name="cbLeveranciers" Grid.Column="2" MinWidth="250"  HorizontalAlignment="Right"/>
+            <TextBox x:Name="txtPrijsPerKwh" Grid.Column="1" MinWidth="40" KeyUp="txt_KeyUp" KeyDown="txt_KeyDown"  PreviewTextInput="txtPrijs_PreviewTextInput"/>
+            <ComboBox x:Name="cbLeveranciers" Grid.Column="2" MinWidth="250"  HorizontalAlignment="Right" SelectionChanged="cbLeveranciers_SelectionChanged"/>
         </Grid>
         <Grid Grid.Row="4">
             <TextBlock x:Name="txtbUitkomst" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>

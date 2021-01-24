@@ -13,12 +13,12 @@ namespace BusinessLayer.Model
         public virtual decimal PrijsPerKwh { get; set; }
         #endregion
 
-        public decimal Formule(int uren, int dagen, double Vermogen, decimal prijsPerKwh )
+        public decimal Formule()
         {
             double resultaat;
             decimal prijsTotaal;
-            resultaat = uren * dagen * (Vermogen / 1000);
-            prijsTotaal = (decimal)resultaat * prijsPerKwh;
+            resultaat = Uren * Dagen * (VermogenInWatt / 1000);
+            prijsTotaal = (decimal)resultaat * PrijsPerKwh;
             return prijsTotaal;
         }
     }

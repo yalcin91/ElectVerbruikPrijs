@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,10 +30,12 @@ namespace WPF_ElecVerbruik
     public partial class MainWindow : Window
     {
         private LeverancierWPF LeverancierWPF ;
+        private BerekeningWPF BerekeningWPF;
         private ObservableCollection<Leverancier> Leverancier;
         public MainWindow()
         {
             InitializeComponent();
+            BerekeningWPF = new BerekeningWPF();
             LeverancierWPF = new LeverancierWPF();
             Leverancier = new ObservableCollection<Leverancier>(Context.LeverancierManager.GetAllLeveranciers());
             dgOrderSelection.ItemsSource = Leverancier;
@@ -40,7 +43,9 @@ namespace WPF_ElecVerbruik
             Leverancier.CollectionChanged += Leverancier_CollectionChanged;
             Closing += MainWindow_Closing;
             LeverancierWPF.Closing += LeverancierWPF_Closing;
-        }
+            BerekeningWPF.Closing += Berekening_Closing;
+        }       
+
         private void Leverancier_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -72,6 +77,15 @@ namespace WPF_ElecVerbruik
             }, null);
             e.Cancel = true;
         }
+        private void Berekening_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate (object o)
+            {
+                ((Window)sender).Hide();
+                return null;
+            }, null);
+            e.Cancel = true;
+        }
         private void MenuItem_Sluiten_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -85,7 +99,7 @@ namespace WPF_ElecVerbruik
 
         private void MenuItem_Berekening_Click(object sender, RoutedEventArgs e)
         {
-
+            if (LeverancierWPF != null) { BerekeningWPF.Show(); }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

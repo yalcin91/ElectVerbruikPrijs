@@ -60,10 +60,11 @@ namespace WPF_ElecVerbruik.ModelWPF
 
         private void btnVoegToe_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNaam.Text) || string.IsNullOrEmpty(txtPrijsEuro.Text.ToString()) || 
+            if (string.IsNullOrEmpty(txtNaam.Text) || 
+                string.IsNullOrEmpty(txtPrijsEuro.Text.ToString()) || 
                 string.IsNullOrEmpty(txtMaatschappelijkeZetel.Text) || 
-                string.IsNullOrEmpty(datepToekenningLeveringvergunning.SelectedDate.Value.ToString()) || 
-                string.IsNullOrEmpty(datepPublicatiebeslissing.SelectedDate.Value.ToString()))
+                string.IsNullOrEmpty(datepToekenningLeveringvergunning.SelectedDate.ToString()) || 
+                string.IsNullOrEmpty(datepPublicatiebeslissing.SelectedDate.ToString()))
             {
                 MessageBox.Show("Geef alle gegevens in");
                 return;
@@ -84,40 +85,50 @@ namespace WPF_ElecVerbruik.ModelWPF
 
         private void txtb_KeyUp(object sender, KeyEventArgs e)
         {
-            if (txtPrijsEuro.Text.ToCharArray(0, txtPrijsEuro.Text.Length).Contains('.'))
+            if (string.IsNullOrEmpty(txtNaam.Text) ||
+                string.IsNullOrEmpty(txtPrijsEuro.Text) ||
+                string.IsNullOrEmpty(txtMaatschappelijkeZetel.Text) ||
+                string.IsNullOrEmpty(datepToekenningLeveringvergunning.SelectedDate.ToString()) ||
+                string.IsNullOrEmpty(datepPublicatiebeslissing.SelectedDate.ToString()))
             {
-                txtPrijsEuro.Text = txtPrijsEuro.Text.Remove(txtPrijsEuro.Text.Length - 1);
-                txtPrijsEuro.Text += ",";
-                txtPrijsEuro.SelectionStart = txtPrijsEuro.Text.Length;
+                btnVoegToe.IsEnabled = false;
             }
-            if (!string.IsNullOrEmpty(txtNaam.Text) && !string.IsNullOrEmpty(txtPrijsEuro.Text.ToString()) &&
-                !string.IsNullOrEmpty(txtMaatschappelijkeZetel.Text) &&
-                !string.IsNullOrEmpty(datepToekenningLeveringvergunning.SelectedDate.ToString()) &&
-                !string.IsNullOrEmpty(datepPublicatiebeslissing.SelectedDate.ToString()))
+            else
             {
                 btnVoegToe.IsEnabled = true;
+                if (txtPrijsEuro.Text.ToCharArray(0, txtPrijsEuro.Text.Length).Contains('.'))
+                {
+                    txtPrijsEuro.Text = txtPrijsEuro.Text.Remove(txtPrijsEuro.Text.Length - 1);
+                    txtPrijsEuro.Text += ",";
+                    txtPrijsEuro.SelectionStart = txtPrijsEuro.Text.Length;
+                }
             }
-            else btnVoegToe.IsEnabled = false;
         }
 
         private void dgProduct_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            dgOrderSelection.IsReadOnly = false;
         }
 
         private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            btnUpdate.IsEnabled = true;
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            InitializeComponent();
+            if (dgOrderSelection.SelectedCells.Count < 1) return;
+            var row = dgOrderSelection.SelectedItem as Leverancier;
+            Context.LeverancierManager.UpdateLeveranciers(row);
+            dgOrderSelection.SelectedItem = null;
+            btnUpdate.IsEnabled = false;
+            dgOrderSelection.IsReadOnly = true;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            LeveranciersOBS.Remove(dgOrderSelection.SelectedItem as Leverancier);            
         }    
     }
 }

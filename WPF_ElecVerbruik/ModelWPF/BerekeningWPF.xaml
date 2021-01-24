@@ -1,0 +1,67 @@
+﻿<Window x:Class="WPF_ElecVerbruik.ModelWPF.BerekeningWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_ElecVerbruik.ModelWPF"
+        mc:Ignorable="d"
+        Title="BerekeningWPF" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="#FFC3C3C3"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Aantal uren per dag in gebruik:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
+            <TextBox x:Name="txtAantalUren" Grid.Column="1" MinWidth="40"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Aantal Dagen:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
+            <TextBox x:Name="txtAantalDagen" Grid.Column="1" MinWidth="40"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Aantal Vermogen in Watt:" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
+            <TextBox x:Name="txtAantalWattage" Grid.Column="1" MinWidth="40"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Prijs per Kwh(+- 5 - 20 cent):" MinWidth="250" HorizontalAlignment="Left" Width="auto" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
+            <TextBox x:Name="txtPrijsPerKwh" Grid.Column="1" MinWidth="40" KeyUp="txtPrijsPerKwh_KeyUp" KeyDown="txtPrijsPerKwh_KeyDown"/>
+            <ComboBox x:Name="cbLeveranciers" Grid.Column="2" MinWidth="250"  HorizontalAlignment="Right"/>
+        </Grid>
+        <Grid Grid.Row="4">
+            <TextBlock x:Name="txtbUitkomst" FontWeight="Bold" FontStyle="Italic" FontSize="16"/>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnBereken" Grid.Column="0" Content="Bereken" HorizontalAlignment="Left" IsEnabled="False" Click="btnBereken_Click"/>
+            <Button x:Name="btnRefresh" Grid.Column="1" Content="Refresh" HorizontalAlignment="Right" Click="btnRefresh_Click"/>
+        </Grid>
+    </Grid>
+</Window>

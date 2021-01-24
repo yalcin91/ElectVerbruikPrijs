@@ -104,8 +104,7 @@
             </Grid.Background>
         </Grid>
         <Button x:Name="btnVoegToe" Grid.Row="1" Grid.Column="0" Margin="5" Content="Voeg Toe" HorizontalAlignment="Left"
-                VerticalAlignment="Center" Width="auto" Click="btnVoegToe_Click" IsEnabled="False">
-        </Button>
+                VerticalAlignment="Center" Width="auto" Click="btnVoegToe_Click" IsEnabled="False"/>
         <Button x:Name="btnUpdate" Content="Update" Grid.Row="1" Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="auto" 
                     IsEnabled="False" Click="btnUpdate_Click"/>
     </Grid>

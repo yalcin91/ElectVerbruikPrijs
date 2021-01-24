@@ -48,7 +48,7 @@ namespace UnitTest_ElecVerbruik.ModelTest
             Berekening.VermogenInWatt = vermogenInWatt;
             Berekening.PrijsPerKwh = prijsPerKwh;
 
-            Assert.AreEqual(0.8m, Berekening.Formule(Berekening.Uren, Berekening.Dagen, Berekening.VermogenInWatt, Berekening.PrijsPerKwh));
+            Assert.AreEqual(0.8m, Berekening.Formule());
         }
     }
 }
